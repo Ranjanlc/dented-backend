@@ -81,9 +81,7 @@ const initGetUser = async (req, res) => {
 
 const initUpdateuserInfo = async (req, res) => {
   const { userId } = req.body;
-
-  const { firstname, lastname, email, phone, description, socialMedia } =
-    req.body;
+  const { fullName, email } = req.body;
   if (!mongoose.Types.ObjectId.isValid(userId)) {
     return res.status(404).send(`No info with infouserId: ${userId}`);
   }
@@ -91,28 +89,17 @@ const initUpdateuserInfo = async (req, res) => {
     const updateduserInfo = await User.findByIdAndUpdate(
       userId,
       {
-        firstname,
-        lastname,
+        name: fullName,
         email,
-        phone,
-        description,
-        socialMedia: JSON.parse(socialMedia),
-        profileImage:
-          req.files && files.profileImage
-            ? `/images/${files.profileImage[0].filename}`
-            : undefined,
-        coverImage:
-          req.files && files.coverImage
-            ? `/images/${files.coverImage[0].filename}`
-            : undefined,
       },
       {
         new: true,
       }
     );
-    return res.json({ updateduserInfo });
+    const token = createToken(updateduserInfo._id);
+    return res.json({ user: updateduserInfo, token });
   } catch (error) {
-    return res.status(500).json({ error: "error.message" });
+    return res.status(500).json({ error: error.message });
   }
 };
 
