@@ -16,7 +16,6 @@ router.put("/", requireAuth, updateuserInfo);
 router.post("/signup", signupUser);
 
 // verify user
-// router.patch("/verify", verifyUser);
 
 // login route
 router.post("/login", loginUser);
