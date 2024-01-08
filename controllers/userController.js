@@ -103,9 +103,16 @@ const initUpdateuserInfo = async (req, res) => {
   }
 };
 
+const initRefreshToken = async (req, res) => {
+  const newToken = createToken(req.body.userId);
+
+  res.status(200).json({ token: newToken });
+};
+
 export const signupUser = asyncWrapper(initSignupUser);
 export const loginUser = asyncWrapper(initLoginUser);
 export const getUser = asyncWrapper(initGetUser);
+export const refreshToken = asyncWrapper(initRefreshToken);
 export const updateuserInfo = asyncWrapper(initUpdateuserInfo);
 
 // export const verifyUser = asyncWrapper(initVerifyUser);

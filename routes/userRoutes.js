@@ -5,6 +5,7 @@ import {
   loginUser,
   signupUser,
   updateuserInfo,
+  refreshToken,
 } from "../controllers/userController.js";
 
 const router = express.Router();
@@ -22,6 +23,8 @@ router.post("/login", loginUser);
 
 //get user by id to view profile
 router.get("/", requireAuth, getUser);
+
+router.get("/refresh-token", requireAuth, refreshToken);
 
 // Change pw
 
